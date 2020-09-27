@@ -25,7 +25,7 @@ from ctypes import *
 import math
 import random
 import os
-
+import cv2
 
 class BOX(Structure):
     _fields_ = [("x", c_float),
@@ -73,17 +73,18 @@ def network_height(net):
     return lib.network_height(net)
 
 
-def bbox2points(bbox):
+def bbox2points(bbox, darknet_size, out_size):
     """
     From bounding box yolo format
-    to corner points cv2 rectangle
-    """
-    x, y, w, h = bbox
-    xmin = int(round(x - (w / 2)))
-    xmax = int(round(x + (w / 2)))
-    ymin = int(round(y - (h / 2)))
-    ymax = int(round(y + (h / 2)))
-    return xmin, ymin, xmax, ymax
+    to corner points cv2 rectangle.
+    Return original frame bbox.
+    """     
+    x, y, w, h = bbox    
+    xmin = round((x - w / 2) * out_size[1] / darknet_size)
+    xmax = round((x + w / 2) * out_size[1] / darknet_size)
+    ymin = round((y - h / 2) * out_size[0] / darknet_size)
+    ymax = round((y + h / 2) * out_size[0] / darknet_size)
+    return int(xmin), int(ymin), int(xmax), int(ymax)
 
 
 def class_colors(names):
@@ -91,6 +92,7 @@ def class_colors(names):
     Create a dict with one random BGR color for each
     class name
     """
+    random.seed(666) 
     return {name: (
         random.randint(0, 255),
         random.randint(0, 255),
@@ -128,14 +130,16 @@ def print_detections(detections, coordinates=False):
             print("{}: {}%".format(label, confidence))
 
 
-def draw_boxes(detections, image, colors):
-    import cv2
+def draw_boxes(detections, image, colors, darknet_size):    
     for label, confidence, bbox in detections:
-        left, top, right, bottom = bbox2points(bbox)
+        left, top, right, bottom = bbox2points(bbox, darknet_size, image.shape)              
         cv2.rectangle(image, (left, top), (right, bottom), colors[label], 1)
-        cv2.putText(image, "{} [{:.2f}]".format(label, float(confidence)),
+        cv2.putText(image, f'{label} {float(confidence)}%',
                     (left, top - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
-                    colors[label], 2)
+                    (0,0,0), 6)
+        cv2.putText(image, f'{label} {float(confidence)}%',
+                    (left, top - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
+                    colors[label], 1)
     return image
 
 
