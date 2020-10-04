@@ -70,7 +70,7 @@
     names = data/obj.names
     backup = backup/
     ```
-#### 3. Download pre-trained weights [yolov4.conv.137](https://drive.google.com/file/d/1JKF-bdIklxOOVy-2Cr5qdvjgGpmGfcbp/view), and put it in `darknet` dir.
+#### 3. Download pre-trained weights [yolov4.conv.137](https://drive.google.com/file/d/1JKF-bdIklxOOVy-2Cr5qdvjgGpmGfcbp/view), [darknet53.conv.74](https://pjreddie.com/media/files/darknet53.conv.74) and put it in `darknet` dir.
 
 #### 4. Edit cfg file. 
 * [AlexeyAB darknet README.md](https://github.com/AlexeyAB/darknet#how-to-train-to-detect-your-custom-objects)
@@ -130,3 +130,10 @@
   ```
 ### How to learn deep learning
 * [https://www.youtube.com/watch?v=G_fsA-OUqNw&list=PL1w8k37X_6L9YSIvLqO29S9H0aZ1ncglu&index=1](https://www.youtube.com/watch?v=G_fsA-OUqNw&list=PL1w8k37X_6L9YSIvLqO29S9H0aZ1ncglu&index=1)
+
+## Dairy
+* YOLOv3
+  
+| Num |Batch|subdivision|  Size   |  mAP  |recall |
+|:---:|:---:|:---------:|:-------:|:-----:|:-----:|
+| 1   | 64  | 16        | 416*416 |       |       | 

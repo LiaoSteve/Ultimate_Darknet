@@ -9,6 +9,7 @@
 *.dll
 *.lib
 *.dylib
+__pycache__/
 mnist/
 caffe/
 grasp/
@@ -18,6 +19,9 @@ convnet/
 decaf/
 submission/
 cfg/
+data/2007_*
+data/obj.*
+data/VOCdevkit/
 build/darknet/*
 build_*/
 !build/darknet/YoloWrapper.cs

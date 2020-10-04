@@ -6,7 +6,7 @@ from os.path import join
 
 sets=[('2007', 'train'), ('2007', 'val'), ('2007', 'test'), ('2007', 'trainval')]
 
-classes = ["trash","cap","plastic_bag"]
+classes = ["trash"]
 
 
 def convert(size, box):
@@ -23,9 +23,10 @@ def convert(size, box):
     return (x,y,w,h)
 
 def convert_annotation(year, image_id):
+    # convert pascal-voc(.xml) labels to YOLO(.txt) labels 
     in_file = open('VOCdevkit/VOC%s/Annotations/%s.xml'%(year, image_id))
     out_file = open('VOCdevkit/VOC%s/labels/%s.txt'%(year, image_id), 'w')
-    tree=ET.parse(in_file)
+    tree = ET.parse(in_file)
     root = tree.getroot()
     size = root.find('size')
     w = int(size.find('width').text)
@@ -49,8 +50,8 @@ for year, image_set in sets:
     image_ids = open('VOCdevkit/VOC%s/ImageSets/Main/%s.txt'%(year, image_set)).read().strip().split()
     list_file = open('%s_%s.txt'%(year, image_set), 'w')
     for image_id in image_ids:
-        list_file.write('%s/VOCdevkit/VOC%s/JPEGImages/%s.jpg\n'%(wd, year, image_id))
-        convert_annotation(year, image_id)
+        list_file.write('%s/VOCdevkit/VOC%s/JPEGImages/%s\n'%(wd, year, image_id))
+        convert_annotation(year, os.path.splitext(image_id)[0])
     list_file.close()
 
 print('DONE')
