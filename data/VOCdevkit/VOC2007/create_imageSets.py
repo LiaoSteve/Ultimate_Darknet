@@ -1,8 +1,8 @@
 import os
 import random
  
-trainval_percent = 0.1
-train_percent = 0.9
+trainval_percent = 0.2
+train_percent = 0.8
 
 xmlfilepath = 'Annotations'
 txtsavepath = 'ImageSets/Main'
@@ -10,9 +10,9 @@ jpegfilepath = 'JPEGImages'
 
 random.seed(10)
 
-total_xml = os.listdir(xmlfilepath)
-total_images = os.listdir(jpegfilepath)
-
+total_xml = sorted(os.listdir(xmlfilepath))
+total_images = sorted(os.listdir(jpegfilepath))
+random.shuffle(total_images)
 num = len(total_xml)
 image_num = len(total_images)
 
