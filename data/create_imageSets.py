@@ -34,9 +34,18 @@ print(f'- [x] total_xml: {len(total_xml)}')
 print(f'- [x] total_images: {len(total_images)}')
 print(f'- [x] total_txt (note that classes.txt could exist, check this file!): {len(total_txt)}')
 
-if not len(total_xml) == len(total_images) and len(total_images) == len(total_txt):  
-    raise RuntimeError("- [x] number of xml and images and txt are not the same.")
-
+if not len(total_xml) == len(total_images): 
+    w1 = input("- [warning] number of xml and images are not the same? [y/n]")
+    if w1 == 'y' or w1 =='Y':
+        pass
+    else:
+        raise RuntimeError('check xml and image')
+if not len(total_images) == len(total_txt): 
+    w2 = input('- [warning] number of images and txt are not the same? [y/n]')
+    if w2 == 'y' or w1 =='Y':
+        pass
+    else:
+        raise RuntimeError('check txt and image')
 list = range(len(total_images))
 tv = int(len(total_images) * trainval_percent)
 tr = int(tv * train_percent)
