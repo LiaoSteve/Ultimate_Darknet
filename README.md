@@ -75,6 +75,9 @@
 #### 4. Edit cfg file. 
 * [AlexeyAB darknet README.md](https://github.com/AlexeyAB/darknet#how-to-train-to-detect-your-custom-objects)
 - .cfg : filters=(classes + 5)x3
+- ```bash
+  darknet.exe detector calc_anchors data/obj.data -num_of_clusters 9 -width 416 -height 416
+  ```
 
 #### 5. Start training by using the command line: 
 * In `darknet` dir :
