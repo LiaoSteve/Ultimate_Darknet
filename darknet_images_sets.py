@@ -15,13 +15,13 @@ def parser():
     parser.add_argument("--dataset_list", type=str, default="./data/",
                         help="path to your image set ")  
 
-    parser.add_argument("--save_dir", type=str, default="./predict_image/day1/",
+    parser.add_argument("--save_dir", type=str, default="./predict_image/day5/",
                         help="path to save detection images")
 
-    parser.add_argument("--weights", default="./backup/yolov4_last.weights",
+    parser.add_argument("--weights", default="./backup/yolov3_last.weights",
                         help="yolo weights path") 
 
-    parser.add_argument("--config_file", default="./cfg/yolov4.cfg",
+    parser.add_argument("--config_file", default="./cfg/yolov3.cfg",
                         help="path to config file")
 
     parser.add_argument("--data_file", default="./data/obj.data",
@@ -73,7 +73,8 @@ if __name__ == '__main__':
         f.close()
         for filename in temps:
             if filename.endswith('jpg') or filename.endswith('png')\
-                or filename.endswith('jpeg'):
+                or filename.endswith('jpeg') or filename.endswith('JPG')\
+                or filename.endswith('JPEG') or filename.endswith('PNG'):
                 images.append(filename)
             else:        
                 raise RuntimeError(f'notice that {filename} image format are not accepted(.jpg, .png, .jpeg)')
