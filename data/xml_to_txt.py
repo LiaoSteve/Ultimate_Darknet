@@ -11,8 +11,9 @@ from os.path import join
 
 sets=[('2007', 'dont_care')]
 
-classes = ['bottle']
+classes = ['garbage','bottle']
 
+global num 
 def convert(size, box):
     dw = 1./size[0]
     dh = 1./size[1]
@@ -27,7 +28,12 @@ def convert(size, box):
     return (x,y,w,h)
 
 def convert_annotation(year, image_id):
-    in_file = open('VOCdevkit/VOC%s/Annotations/%s.xml'%(year, image_id))
+    
+    try:
+        in_file = open('VOCdevkit/VOC%s/Annotations/%s.xml'%(year, image_id))
+    except Exception as e:
+        print(e)
+        return
     out_file = open('VOCdevkit/VOC%s/labels/%s.txt'%(year, image_id), 'w')
     tree=ET.parse(in_file)
     root = tree.getroot()
@@ -51,8 +57,11 @@ def convert_annotation(year, image_id):
         if bb[0]<0 or bb[1]<0 or bb[2]<0 or bb[3]<0 :            
             raise RuntimeError(f'{image_id} bbox out of range <0')
         out_file.write(str(cls_id) + " " + " ".join([str(a) for a in bb]) + '\n')
+    global num 
+    num += 1
 
 wd = getcwd()
+
 num = 0
 for year, image_set in sets:
     if not os.path.exists('VOCdevkit/VOC%s/labels/'%(year)):        
@@ -76,13 +85,19 @@ for year, image_set in sets:
     xml_ids.sort()
 
     if not len(image_ids) ==len(xml_ids):
-        raise RuntimeError(f'number of images and .xml files not equal.')
+        x = input(f'number of images {len(image_ids)} and .xml files {len(xml_ids)} not equal. Continue? [y/n]')
+        if x == 'y' or x == 'Y':
+            pass
+        else:
+            raise RuntimeError('Check please!')
     for image_id in image_ids:        
         convert_annotation(year, os.path.splitext(image_id)[0])   
-        num += 1
+        
         
 print(f'- [x] JPEGImages: {len(image_ids)} images')
 print(f'- [x] Turn {len(xml_ids)} .xml files to {num} .txt files')
+n_label = os.listdir('VOCdevkit/VOC2007/labels/')
+print(f'- [x] label: {len(n_label)}')
 print('- [x] DONE')
 
-    
+

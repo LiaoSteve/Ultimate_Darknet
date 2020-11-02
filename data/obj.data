@@ -1,4 +1,4 @@
-classes=3
+classes=2
 train  = data/2007_train.txt
 valid  = data/2007_trainval.txt
 names = data/obj.names
