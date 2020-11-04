@@ -103,7 +103,7 @@
 ```
 * Test mAP : 
 ```
-./darknet detector map data/obj.data cfg/yolov4.cfg backup/yolov4.weight
+./darknet detector map data/obj.data cfg/yolov4.cfg backup/yolov4.weight -iou_thresh 0.5
 ```
 * Test recall :
 ```
