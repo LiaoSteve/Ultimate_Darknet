@@ -94,9 +94,9 @@ def class_colors(names):
     """
     random.seed(666) 
     return {name: (
-        random.randint(0, 255),
-        random.randint(0, 255),
-        random.randint(0, 255)) for name in names}
+        random.randint(180, 255),
+        random.randint(180, 255),
+        random.randint(180, 255)) for name in names}
 
 
 def load_network(config_file, data_file, weights, batch_size=1):
@@ -133,13 +133,13 @@ def print_detections(detections, coordinates=False):
 def draw_boxes(detections, image, colors, darknet_size):    
     for label, confidence, bbox in detections:
         left, top, right, bottom = bbox2points(bbox, darknet_size, image.shape)              
-        cv2.rectangle(image, (left, top), (right, bottom), colors[label], 1)
+        cv2.rectangle(image, (left, top), (right, bottom), colors[label], 3)
         cv2.putText(image, f'{label} {float(confidence)}%',
                     (left, top - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
-                    (0,0,0), 6)
+                    (0,0,0), 7)
         cv2.putText(image, f'{label} {float(confidence)}%',
                     (left, top - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5,
-                    colors[label], 1)
+                    colors[label], 2)
     return image
 
 
