@@ -14,6 +14,9 @@ sets=[('2007', 'dont_care')]
 classes = ['garbage','bottle']
 
 global num 
+global P_object
+global N_sample
+
 def convert(size, box):
     dw = 1./size[0]
     dh = 1./size[1]
@@ -32,6 +35,8 @@ def convert_annotation(year, image_id):
     try:
         in_file = open('VOCdevkit/VOC%s/Annotations/%s.xml'%(year, image_id))
     except Exception as e:
+        global N_sample
+        N_sample += 1
         print(e)
         return
     out_file = open('VOCdevkit/VOC%s/labels/%s.txt'%(year, image_id), 'w')
@@ -44,9 +49,11 @@ def convert_annotation(year, image_id):
     for obj in root.iter('object'):
         difficult = obj.find('difficult').text
         cls = obj.find('name').text
-        if cls not in classes or int(difficult) == 1:
+        if cls not in classes or int(difficult) == 1:            
             continue
         cls_id = classes.index(cls)
+        global P_object
+        P_object[cls_id] += 1
         xmlbox = obj.find('bndbox')
         b = (float(xmlbox.find('xmin').text), float(xmlbox.find('xmax').text), float(xmlbox.find('ymin').text), float(xmlbox.find('ymax').text))
         
@@ -63,6 +70,9 @@ def convert_annotation(year, image_id):
 wd = getcwd()
 
 num = 0
+P_object = [0 for _ in classes]
+N_sample = 0
+
 for year, image_set in sets:
     if not os.path.exists('VOCdevkit/VOC%s/labels/'%(year)):        
         os.makedirs('VOCdevkit/VOC%s/labels/'%(year))    
@@ -92,12 +102,15 @@ for year, image_set in sets:
             raise RuntimeError('Check please!')
     for image_id in image_ids:        
         convert_annotation(year, os.path.splitext(image_id)[0])   
-        
-        
-print(f'- [x] JPEGImages: {len(image_ids)} images')
+
+print('---- DONE ----')   
 print(f'- [x] Turn {len(xml_ids)} .xml files to {num} .txt files')
+print(f'- [x] JPEGImages: {len(image_ids)} images')
 n_label = os.listdir('VOCdevkit/VOC2007/labels/')
 print(f'- [x] label: {len(n_label)}')
-print('- [x] DONE')
+print(f'---- info ----')
+for i in range(len(classes)):
+    print(f'- [x] {classes[i]}: {P_object[i]} objects')
+print(f'- [x] Negtive image: {N_sample}')
 
 
