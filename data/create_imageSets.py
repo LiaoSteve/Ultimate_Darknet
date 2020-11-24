@@ -9,9 +9,9 @@ import os
 import random
 
 # change 3 parameters:
-random.seed(10)
-trainval_percent = 0.00001
-train_percent =    0.99999
+random.seed(15)
+trainval_percent = 0.3
+train_percent =    0.7
 
 root = os.getcwd()
 xmlfilepath = 'VOCdevkit/VOC2007/Annotations/'
