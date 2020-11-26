@@ -25,7 +25,8 @@ def parser():
                         help="windown inference display. For headless systems")                        
     parser.add_argument("--ext_output", default=False,
                         help="display bbox coordinates of detected objects")      
-    
+    parser.add_argument("--iou_thresh", type=float, default=.45,
+                        help="nms: remove detections with iou higher this value") 
     return parser.parse_args()
 
 
@@ -38,6 +39,7 @@ def str2int(video_path):
 
 def check_arguments_errors(args):
     assert 0 < args.thresh < 1, "Threshold should be a float between zero and one (non-inclusive)"
+    assert 0 < args.iou_thresh < 1, "Threshold should be a float between zero and one (non-inclusive)"
     if not os.path.exists(args.config_file):
         raise(ValueError("Invalid config path {}".format(os.path.abspath(args.config_file))))
     if not os.path.exists(args.weights):
@@ -86,7 +88,7 @@ if __name__ == '__main__':
                                    interpolation=cv2.INTER_LINEAR)                
         darknet.copy_image_from_bytes(darknet_image, frame_resized.tobytes())
         prev_time = time.time()
-        detections = darknet.detect_image(network, class_names, darknet_image, thresh=args.thresh)
+        detections = darknet.detect_image(network, class_names, darknet_image, thresh=args.thresh, nms=args.iou_thresh)
         fps = int(1/(time.time() - prev_time))
         print(f'fps: {fps}')
         darknet.print_detections(detections, args.ext_output)        

@@ -15,13 +15,13 @@ def parser():
     parser.add_argument("--dataset_list", type=str, default="./data/",
                         help="path to your image set ")  
 
-    parser.add_argument("--save_dir", type=str, default="./predict_image/day5/",
+    parser.add_argument("--save_dir", type=str, default="./predict_image/1_best/",
                         help="path to save detection images")
 
-    parser.add_argument("--weights", default="./backup/yolov3_last.weights",
+    parser.add_argument("--weights", default="./backup/yolov4_best.weights",
                         help="yolo weights path") 
 
-    parser.add_argument("--config_file", default="./cfg/yolov3.cfg",
+    parser.add_argument("--config_file", default="./cfg/yolov4.cfg",
                         help="path to config file")
 
     parser.add_argument("--data_file", default="./data/obj.data",
@@ -30,11 +30,14 @@ def parser():
     parser.add_argument("--thresh", type=float, default=.25,
                         help="remove detections with confidence below this value")    
 
+    parser.add_argument("--iou_thresh", type=float, default=.45,
+                        help="nms: remove detections with iou higher this value") 
     return parser.parse_args()
 
 
 def check_arguments_errors(args):    
     assert 0 < args.thresh < 1, "Threshold should be a float between zero and one (non-inclusive)"
+    assert 0 < args.iou_thresh < 1, "Threshold should be a float between zero and one (non-inclusive)"
     if not os.path.exists(args.config_file):
         raise(ValueError("Invalid config path {}".format(os.path.abspath(args.config_file))))
     if not os.path.exists(args.weights):
@@ -84,7 +87,7 @@ if __name__ == '__main__':
             frame_resized = cv2.resize(frame_rgb, (darknet_width, darknet_height),
                                     interpolation=cv2.INTER_LINEAR)
             darknet.copy_image_from_bytes(darknet_image, frame_resized.tobytes())
-            detections = darknet.detect_image(network, class_names, darknet_image, thresh=args.thresh)
+            detections = darknet.detect_image(network, class_names, darknet_image, thresh=args.thresh, nms=args.iou_thresh)
             frame = darknet.draw_boxes(detections, frame, class_colors, darknet_width)
             cv2.imwrite(save_dir + image.split('/')[-1], frame)
             print(f'- [x] save image {image} to {save_dir}')

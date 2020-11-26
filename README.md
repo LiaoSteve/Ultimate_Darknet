@@ -103,7 +103,7 @@
 ```
 * Test mAP : 
 ```
-./darknet detector map data/obj.data cfg/yolov4.cfg backup/yolov4.weight -iou_thresh 0.5
+./darknet detector map data/obj.data cfg/yolov4.cfg backup/yolov4.weight -iou_thresh 0.5 -thresh 0.25
 ```
 * Test recall :
 ```
@@ -111,7 +111,11 @@
 ```
 #### 8. How to improve object detection : 
 * https://github.com/AlexeyAB/darknet#How-to-improve-object-detection
-  
+
+### 9. Some tips
+* [What is the purpose of ignore_thresh and truth_thresh in the YOLO layers in yolov3.cfg?](https://stackoverflow.com/questions/56199478/what-is-the-purpose-of-ignore-thresh-and-truth-thresh-in-the-yolo-layers-in-yolo)
+* https://www.gitmemory.com/issue/AlexeyAB/darknet/3861/527822883
+
 ### How to create custom dataset from OpenImage Dataset
 * [https://github.com/theAIGuysCode/OIDv4_ToolKit](https://github.com/theAIGuysCode/OIDv4_ToolKit)
 * Download images and labels :
@@ -134,9 +138,3 @@
 ### How to learn deep learning
 * [https://www.youtube.com/watch?v=G_fsA-OUqNw&list=PL1w8k37X_6L9YSIvLqO29S9H0aZ1ncglu&index=1](https://www.youtube.com/watch?v=G_fsA-OUqNw&list=PL1w8k37X_6L9YSIvLqO29S9H0aZ1ncglu&index=1)
 
-## Diary
-* YOLOv3
-  
-| Num |Batch|subdivision|  Size   |  mAP  |recall |
-|:---:|:---:|:---------:|:-------:|:-----:|:-----:|
-| 1   | 64  | 16        | 416*416 |       |       | 
