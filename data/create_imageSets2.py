@@ -29,6 +29,7 @@ if not os.path.exists(txtpath):
 
 total_xml = os.listdir(xmlfilepath)
 total_images = os.listdir(jpegfilepath)
+total_images.sort()
 total_txt = os.listdir(txtpath)
 
 print(f'-------------------------------')
