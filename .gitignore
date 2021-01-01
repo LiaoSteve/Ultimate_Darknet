@@ -18,7 +18,11 @@ opencv/
 convnet/
 decaf/
 submission/
+backup/
+darknet53.conv.74
 anchors.txt
+*.txt
+data/obj.data
 data/2007_*
 data/obj.*
 data/VOCdevkit/VOC2007/Annotations/
