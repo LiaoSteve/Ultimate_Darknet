@@ -30,6 +30,7 @@ if not os.path.exists(txtpath):
 total_xml = os.listdir(xmlfilepath)
 total_images = os.listdir(jpegfilepath)
 total_images.sort()
+random.shuffle(total_images)
 total_txt = os.listdir(txtpath)
 
 print(f'-------------------------------')
