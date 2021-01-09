@@ -20,7 +20,9 @@ decaf/
 submission/
 backup/
 darknet53.conv.74
+yolov4-tiny.conv.29
 anchors.txt
+*.log
 *.txt
 data/obj.data
 data/2007_*
