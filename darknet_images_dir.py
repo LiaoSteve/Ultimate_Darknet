@@ -64,8 +64,11 @@ if __name__ == '__main__':
     images = list()
 
     for filename in os.listdir(args.dataset_dir):
-        if filename.endswith('jpg') or filename.endswith('png')\
-            or filename.endswith('jpeg'):
+        if filename.endswith('jpg') or filename.endswith('png') \
+            or filename.endswith('jpeg') \
+            or filename.endswith('JPG') \
+            or filename.endswith('PNG') \
+            or filename.endswith('JPEG'):
             images.append(filename)
         else:        
             raise RuntimeError(f'notice that {filename} image format are not accepted(.jpg, .png, .jpeg)')

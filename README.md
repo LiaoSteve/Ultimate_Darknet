@@ -80,11 +80,12 @@
 * Paste text (revise `classes`) below to `obj.data`:
   
     ```
-    classes= 2
+    classes = 2
     train  = data/2007_train.txt
     valid  = data/2007_val.txt
     names = data/obj.names
     backup = backup/
+    # notice the space near the '=' symbol
     ```
 
 #### 3. Download pre-trained weights [yolov4.conv.137](https://drive.google.com/file/d/1JKF-bdIklxOOVy-2Cr5qdvjgGpmGfcbp/view), [darknet53.conv.74](https://pjreddie.com/media/files/darknet53.conv.74) and put it in `darknet` dir.
