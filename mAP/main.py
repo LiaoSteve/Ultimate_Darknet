@@ -82,12 +82,10 @@ def log_average_miss_rate(prec, rec, num_images):
         log-average miss rate:
             Calculated by averaging miss rates at 9 evenly spaced FPPI points
             between 10e-2 and 10e0, in log-space.
-
         output:
                 lamr | log-average miss rate
                 mr | miss rate
                 fppi | false positives per image
-
         references:
             [1] Dollar, Piotr, et al. "Pedestrian Detection: An Evaluation of the
                State of the Art." Pattern Analysis and Machine Intelligence, IEEE
@@ -638,17 +636,19 @@ with open(output_files_path + "/output.txt", 'w') as output_file:
                     bbgt = [ int(round(float(x))) for x in gt_match["bbox"].split() ]
                     cv2.rectangle(img,(bbgt[0],bbgt[1]),(bbgt[2],bbgt[3]),light_blue,2)
                     cv2.rectangle(img_cumulative,(bbgt[0],bbgt[1]),(bbgt[2],bbgt[3]),light_blue,2)
-                    cv2.putText(img_cumulative, class_name, (bbgt[0],bbgt[1] - 5), font, 0.6, light_blue, 1, cv2.LINE_AA)
+                    cv2.putText(img_cumulative, class_name, (bbgt[0],bbgt[1] - 5), font, 0.5, (0,0,0), 2, cv2.LINE_AA)
+                    cv2.putText(img_cumulative, class_name, (bbgt[0],bbgt[1] - 5), font, 0.5, light_blue, 1, cv2.LINE_AA)
                 bb = [int(i) for i in bb]
                 cv2.rectangle(img,(bb[0],bb[1]),(bb[2],bb[3]),color,2)
                 cv2.rectangle(img_cumulative,(bb[0],bb[1]),(bb[2],bb[3]),color,2)
-                cv2.putText(img_cumulative, class_name, (bb[0],bb[1] - 5), font, 0.6, color, 1, cv2.LINE_AA)
+                cv2.putText(img_cumulative, class_name, (bb[0],bb[1] - 5), font, 0.5, (0,0,0), 2, cv2.LINE_AA)
+                cv2.putText(img_cumulative, class_name, (bb[0],bb[1] - 5), font, 0.5, color, 1, cv2.LINE_AA)
                 # show image
-                cv2.imshow("Animation", img)
-                cv2.waitKey(20) # show for 20 ms
+                #cv2.imshow("Animation", img)
+                #cv2.waitKey(20) # show for 20 ms
                 # save image to output
                 output_img_path = output_files_path + "/images/detections_one_by_one/" + class_name + "_detection" + str(idx) + ".jpg"
-                cv2.imwrite(output_img_path, img)
+                #cv2.imwrite(output_img_path, img)
                 # save the image with all the objects drawn to it
                 cv2.imwrite(img_cumulative_path, img_cumulative)
 

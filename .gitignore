@@ -10,6 +10,7 @@
 *.dylib
 *.keep
 __pycache__/
+mAP/input/
 mnist/
 caffe/
 grasp/

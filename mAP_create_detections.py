@@ -21,6 +21,7 @@ import cv2
 import darknet
 import argparse
 from pathlib import Path
+from tqdm import tqdm 
 
 def parser():
     parser = argparse.ArgumentParser(description="YOLO Object Detection")       
@@ -109,8 +110,8 @@ if __name__ == '__main__':
     # get all image path
     with open(data,'r') as f:
         image_list = f.readlines()
-
-    for image in image_list:
+    for i in tqdm(range(len(image_list))):
+        image = image_list[i]
         image = image.split('\n')[0]
         frame = cv2.imread(image)
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)

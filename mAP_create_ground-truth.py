@@ -16,6 +16,7 @@
 import os
 from pathlib import Path
 import cv2
+from tqdm import tqdm 
 
 def yolo_2_voc(x, y, w, h, img_w, img_h):
     """
@@ -64,7 +65,8 @@ if __name__ == '__main__':
     with open(data,'r') as f:
         image_list = f.readlines()
     
-    for image in image_list:
+    for i in tqdm(range(len(image_list))):
+        image = image_list[i]
         image = image.split('\n')[0]        
         frame = cv2.imread(image)
         img_h, img_w, _ = frame.shape
