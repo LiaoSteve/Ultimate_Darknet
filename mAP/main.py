@@ -9,7 +9,7 @@ import math
 
 import numpy as np
 
-MINOVERLAP = 0.5 # default value (defined in the PASCAL VOC2012 challenge)
+MINOVERLAP = 0.3 # default value (defined in the PASCAL VOC2012 challenge)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-na', '--no-animation', help="no animation is shown.", action="store_true")
@@ -323,8 +323,8 @@ def draw_plot_func(dictionary, n_classes, window_title, plot_title, x_label, out
     # save the plot
     fig.savefig(output_path)
     # show image
-    if to_show:
-        plt.show()
+    #if to_show:
+    #    plt.show()
     # close the plot
     plt.close()
 
@@ -725,7 +725,7 @@ with open(output_files_path + "/output.txt", 'w') as output_file:
 
     output_file.write("\n# mAP of all classes\n")
     mAP = sum_AP / n_classes
-    text = "mAP = {0:.2f}%".format(mAP*100)
+    text = "mAP@{0} = {1:.2f}%".format(MINOVERLAP,mAP*100)
     output_file.write(text + "\n")
     print(text)
 
@@ -885,7 +885,7 @@ if draw_plot:
 """
 if draw_plot:
     window_title = "mAP"
-    plot_title = "mAP = {0:.2f}%".format(mAP*100)
+    plot_title = f"mAP@{MINOVERLAP} = {mAP*100:.2f}%"
     x_label = "Average Precision"
     output_path = output_files_path + "/mAP.png"
     to_show = True

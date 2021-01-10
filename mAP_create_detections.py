@@ -28,7 +28,7 @@ def parser():
 
     parser.add_argument(
             "--weights", 
-            default="backup/cv5-1/yolov4_8/yolov4_8_best.weights",
+            default="backup/cv5-1/yolov4_8/yolov4_8_7000.weights",
             help="yolo weights path") 
 
     parser.add_argument(
@@ -62,7 +62,7 @@ def parser():
     parser.add_argument(
             "--iou_thresh", 
             type=float, 
-            default=.5,
+            default=.45,
             help="nms: remove detections with iou higher this value") 
 
     return parser.parse_args()
