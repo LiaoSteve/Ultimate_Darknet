@@ -32,5 +32,5 @@ Special case to draw in:
 
         - pink -> FN: False Negatives (object not detected but present in the ground-truth)
         
-        - blue -> ground thruth bbox
+        - blue -> ground-truth bbox
 ```

@@ -44,7 +44,7 @@ def parser():
     parser.add_argument(
             "--save_image_dir", 
             type=str, 
-            default="",
+            default="predict/cv5-1_test/",
             help="path to save detection images")
 
     parser.add_argument(
@@ -131,7 +131,7 @@ if __name__ == '__main__':
         if args.save_image_dir:
             frame = darknet.draw_boxes(detections, frame, class_colors, darknet_width)
             cv2.imwrite(args.save_image_dir + 'out_' + name, frame)
-            print(f'- [x] save image {name} to {args.save_image_dir}')
+            #print(f'- [x] save image {name} to {args.save_image_dir}')
 
         if args.detection_dir:
             # save detections to  txt file

@@ -10,6 +10,7 @@
 *.dylib
 *.keep
 __pycache__/
+predict/
 mAP/
 mnist/
 caffe/

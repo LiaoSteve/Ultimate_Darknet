@@ -9,7 +9,7 @@ import math
 
 import numpy as np
 
-MINOVERLAP = 0.3 # default value (defined in the PASCAL VOC2012 challenge)
+MINOVERLAP = 0.5 # default value (defined in the PASCAL VOC2012 challenge)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-na', '--no-animation', help="no animation is shown.", action="store_true")
@@ -246,6 +246,7 @@ def draw_plot_func(dictionary, n_classes, window_title, plot_title, x_label, out
     if true_p_bar != "":
         """
          Special case to draw in:
+            - blue -> Ground-truth
             - green -> TP: True Positives (object detected and matches ground-truth)
             - red -> FP: False Positives (object detected but does not match ground-truth)
             - pink -> FN: False Negatives (object not detected but present in the ground-truth)
@@ -602,9 +603,9 @@ with open(output_files_path + "/output.txt", 'w') as output_file:
                 height, widht = img.shape[:2]
                 # colors (OpenCV works with BGR)
                 white = (255,255,255)
-                light_blue = (255,200,100)
-                green = (0,255,0)
-                light_red = (30,30,255)
+                light_blue = (229,205,113)
+                green = (216,244,181)
+                light_red = (85,85,255)
                 # 1st line
                 margin = 10
                 v_pos = int(height - margin - (bottom_border / 2.0))
@@ -634,15 +635,19 @@ with open(output_files_path + "/output.txt", 'w') as output_file:
                 font = cv2.FONT_HERSHEY_SIMPLEX
                 if ovmax > 0: # if there is intersections between the bounding-boxes
                     bbgt = [ int(round(float(x))) for x in gt_match["bbox"].split() ]
-                    cv2.rectangle(img,(bbgt[0],bbgt[1]),(bbgt[2],bbgt[3]),light_blue,2)
-                    cv2.rectangle(img_cumulative,(bbgt[0],bbgt[1]),(bbgt[2],bbgt[3]),light_blue,2)
-                    cv2.putText(img_cumulative, class_name, (bbgt[0],bbgt[1] - 5), font, 0.5, (0,0,0), 2, cv2.LINE_AA)
-                    cv2.putText(img_cumulative, class_name, (bbgt[0],bbgt[1] - 5), font, 0.5, light_blue, 1, cv2.LINE_AA)
+                    cv2.rectangle(img,(bbgt[0],bbgt[1]),(bbgt[2],bbgt[3]),light_blue,3)
+                    cv2.rectangle(img_cumulative,(bbgt[0],bbgt[1]),(bbgt[2],bbgt[3]),light_blue,3)
+                    cv2.putText(img_cumulative, 'GT', (bbgt[0],bbgt[1] - 5), font, 0.5, (0,0,0), 7)
+                    cv2.putText(img_cumulative, 'GT', (bbgt[0],bbgt[1] - 5), font, 0.5, light_blue, 2)
                 bb = [int(i) for i in bb]
-                cv2.rectangle(img,(bb[0],bb[1]),(bb[2],bb[3]),color,2)
-                cv2.rectangle(img_cumulative,(bb[0],bb[1]),(bb[2],bb[3]),color,2)
-                cv2.putText(img_cumulative, class_name, (bb[0],bb[1] - 5), font, 0.5, (0,0,0), 2, cv2.LINE_AA)
-                cv2.putText(img_cumulative, class_name, (bb[0],bb[1] - 5), font, 0.5, color, 1, cv2.LINE_AA)
+                cv2.rectangle(img,(bb[0],bb[1]),(bb[2],bb[3]),color,3)
+                cv2.rectangle(img_cumulative,(bb[0],bb[1]),(bb[2],bb[3]),color,3)
+                if status == "MATCH!":
+                    cv2.putText(img_cumulative, f'{class_name} {round(float(detection["confidence"])*100)}%', (bb[0],bb[1] - 5), font, 0.5, (0,0,0), 7)
+                    cv2.putText(img_cumulative, f'{class_name} {round(float(detection["confidence"])*100)}%', (bb[0],bb[1] - 5), font, 0.5, color, 2)
+                else:
+                    cv2.putText(img_cumulative, f'FP ({status}) {round(float(detection["confidence"])*100)}%', (bb[0],bb[1] - 5), font, 0.5, (0,0,0), 7)
+                    cv2.putText(img_cumulative, f'FP ({status}) {round(float(detection["confidence"])*100)}%', (bb[0],bb[1] - 5), font, 0.5, color, 2)
                 # show image
                 #cv2.imshow("Animation", img)
                 #cv2.waitKey(20) # show for 20 ms
@@ -733,7 +738,7 @@ with open(output_files_path + "/output.txt", 'w') as output_file:
  Draw false negatives
 """
 if show_animation:
-    pink = (203,192,255)
+    pink = (213, 222, 255)
     for tmp_file in gt_files:
         ground_truth_data = json.load(open(tmp_file))
         #print(ground_truth_data)
@@ -749,7 +754,9 @@ if show_animation:
         for obj in ground_truth_data:
             if not obj['used']:
                 bbgt = [ int(round(float(x))) for x in obj["bbox"].split() ]
-                cv2.rectangle(img,(bbgt[0],bbgt[1]),(bbgt[2],bbgt[3]),pink,2)
+                cv2.rectangle(img,(bbgt[0],bbgt[1]),(bbgt[2],bbgt[3]),pink,3)
+                cv2.putText(img, 'FN', (bbgt[0],bbgt[1] - 5), font, 0.5, (0,0,0), 7)
+                cv2.putText(img, 'FN', (bbgt[0],bbgt[1] - 5), font, 0.5, pink, 2)
         cv2.imwrite(img_cumulative_path, img)
 
 # remove the temp_files directory
