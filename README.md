@@ -3,12 +3,12 @@
 
 * Yolo v4 source code:  [https://github.com/AlexeyAB/darknet](https://github.com/AlexeyAB/darknet) 
  
-#### 0. Install cuda and cudnn
+#### 0. Install cuda, cudnn and opencv
 * [Install CUDA 10.0 and cuDNN v7.4.2 on Ubuntu 16.04](https://gist.github.com/matheustguimaraes/43e0b65aa534db4df2918f835b9b361d)
 
 * [多版本CUDA与cuDNN管理](https://dinghow.site/2019/05/19/cuda-cudnn-version/)
 
-
+* sudo apt install libopencv-dev
 #### 1. Compile on Linux
 ```
   git clone https://github.com/LiaoSteve/darknet.git
