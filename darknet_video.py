@@ -9,17 +9,17 @@ import argparse
 
 def parser():
     parser = argparse.ArgumentParser(description="YOLO Object Detection")   
-    parser.add_argument("--input", default="trash.mp4",
+    parser.add_argument("--input", default="../trash_video/DJI/DJI_9.MP4",
                         help="webcam or video path")
-    parser.add_argument("--weights", default="backup/yolov4_50000.weights",
+    parser.add_argument("--weights", default="backup/cv5-3/yolov4_8/yolov4_8_7000.weights",
                         help="yolo weights path") 
-    parser.add_argument("--config_file", default="./cfg/yolov4.cfg",
+    parser.add_argument("--config_file", default="./cfg/yolov4_8.cfg",
                         help="path to config file")
     parser.add_argument("--data_file", default="./data/obj.data",
                         help="path to data file")
     parser.add_argument("--thresh", type=float, default=.25,
                         help="remove detections with confidence below this value")
-    parser.add_argument("--out_filename", type=str, default="result.mp4",
+    parser.add_argument("--out_filename", type=str, default="result_DJI_9.avi",
                         help="inference video name. Not saved if empty")   
     parser.add_argument("--dont_show", default=False,
                         help="windown inference display. For headless systems")                        
@@ -51,7 +51,7 @@ def check_arguments_errors(args):
 
 
 def set_saved_video(input_video, output_video, size, fps):
-    fourcc = cv2.VideoWriter_fourcc(*"MJPG")    
+    fourcc = cv2.VideoWriter_fourcc(*"XVID")    
     video = cv2.VideoWriter(output_video, fourcc, fps, (size))
     return video
 
