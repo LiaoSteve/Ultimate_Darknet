@@ -1,3 +1,9 @@
+"""
+@ Adapted by YU-HSIEN LIAO (LiaoSteve)
+@ Fork from https://github.com/AlexeyAB/darknet
+@ Date: 2021/2/4
+@ opencv: https://docs.opencv.org/3.0-beta/modules/videoio/doc/reading_and_writing_video.html#videocapture-get
+"""
 from ctypes import *
 import random
 import os

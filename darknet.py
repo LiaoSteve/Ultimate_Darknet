@@ -1,5 +1,12 @@
 #!python3
 """
+@ Adapted by YU-HSIEN LIAO (LiaoSteve)
+@ Original author: Philip Kahn
+@ Fork from https://github.com/AlexeyAB/darknet
+@ Date: 2021/2/4
+@ opencv: https://docs.opencv.org/3.0-beta/modules/videoio/doc/reading_and_writing_video.html#videocapture-get
+"""
+"""
 Python 3 wrapper for identifying objects in images
 
 Requires DLL compilation
@@ -21,6 +28,7 @@ Windows Python 2.7 version: https://github.com/AlexeyAB/darknet/blob/fc496d52bf2
 @author: Philip Kahn
 @date: 20180503
 """
+
 from ctypes import *
 import math
 import random
