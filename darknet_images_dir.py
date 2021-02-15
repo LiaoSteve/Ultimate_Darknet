@@ -8,16 +8,16 @@ import argparse
 
 def parser():
     parser = argparse.ArgumentParser(description="YOLO Object Detection") 
-    parser.add_argument("--dataset_dir", type=str, default="./data/VOCdevkit/VOC2007/JPEGImages/",
-                        help="path to your image set ")  
+    parser.add_argument("--dataset_dir", type=str, default="/home/ti-2080/steve/trash_video/DJI/images_DJI_2/",
+                        help="path to your image set ")
 
-    parser.add_argument("--save_dir", type=str, default="./predict_image/",
+    parser.add_argument("--save_dir", type=str, default="./predict_image/DJI_1/3000/",
                         help="path to save detection images")
 
-    parser.add_argument("--weights", default="./backup/yolov4_final.weights",
+    parser.add_argument("--weights", default="./backup/yolov4_8_sat_3000.weights",
                         help="yolo weights path") 
 
-    parser.add_argument("--config_file", default="./cfg/yolov4.cfg",
+    parser.add_argument("--config_file", default="./cfg/yolov4_8_sat.cfg",
                         help="path to config file")
 
     parser.add_argument("--data_file", default="./data/obj.data",
@@ -42,7 +42,7 @@ def check_arguments_errors(args):
     if not os.path.exists(args.data_file):
         raise(ValueError("Invalid data file path {}".format(os.path.abspath(args.data_file))))
     if not os.path.exists(args.dataset_dir):
-        raise(ValueError("Invalid image set file path {}".format(os.path.abspath(args.data_file))))
+        raise(ValueError("Invalid dataset file path {}".format(os.path.abspath(args.dataset_dir))))
     os.makedirs(args.save_dir, exist_ok=1)
 
 
@@ -81,5 +81,5 @@ if __name__ == '__main__':
         detections = darknet.detect_image(network, class_names, darknet_image, thresh=args.thresh, nms=args.iou_thresh)
         frame = darknet.draw_boxes(detections, frame, class_colors, darknet_width)
         cv2.imwrite(args.save_dir + 'out_' + image, frame)
-        print(f'- [x] save image {image} to {args.save_dir}')
+        #print(f'- [x] save image {image} to {args.save_dir}')
     print(f'- [OK] Save {len(images)} images done')
