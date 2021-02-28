@@ -9,6 +9,9 @@
 *.lib
 *.dylib
 *.keep
+*.analysis
+*.split
+*.discription
 __pycache__/
 predict/
 mAP/

@@ -24,6 +24,7 @@ for image_name in image_names:
     name = image_name.split('.')[0]
     if name not in name_list:        
         os.remove('./JPEGImages/' + image_name)
+        print(f'delete {image_name}')
         num += 1
 
 print(f'- [x] Remove: {num} xml file')
