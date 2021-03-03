@@ -60,6 +60,7 @@ if __name__ == '__main__':
         if 'valid' in line:            
             data = line.split(' ')[-1]            
             data = data.split('\n')[0]
+            break
 
     # get all image path
     with open(data,'r') as f:

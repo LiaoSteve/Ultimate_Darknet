@@ -1,5 +1,6 @@
 '''
 @ Author: Yu-Hsien Liao (LiaoSteve)
+@ Date: 2021/01/09
 @ Description: copy the validation set to \n
         'mAP/input/images-optional' dir to calculate the mAP
 '''
@@ -20,6 +21,7 @@ for line in data:
     if 'valid' in line:            
         data = line.split(' ')[-1]            
         data = data.split('\n')[0]
+        break
 
 # get all image path
 with open(data,'r') as f:

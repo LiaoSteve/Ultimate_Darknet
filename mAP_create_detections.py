@@ -28,7 +28,7 @@ def parser():
 
     parser.add_argument(
             "--weights", 
-            default="backup/cv5-1/yolov4_8/yolov4_8_7000.weights",
+            default="backup/yolov4_8_best.weights",
             help="yolo weights path") 
 
     parser.add_argument(
@@ -44,7 +44,7 @@ def parser():
     parser.add_argument(
             "--save_image_dir", 
             type=str, 
-            default="predict/cv5-1_test/",
+            default="predict/cv5-1_test",
             help="path to save detection images")
 
     parser.add_argument(
@@ -56,13 +56,13 @@ def parser():
     parser.add_argument(
             "--thresh", 
             type=float, 
-            default=.25,
+            default=.01,
             help="remove detections with confidence below this value")    
 
     parser.add_argument(
             "--iou_thresh", 
             type=float, 
-            default=.45,
+            default=.5,
             help="nms: remove detections with iou higher this value") 
 
     return parser.parse_args()
@@ -106,6 +106,7 @@ if __name__ == '__main__':
         if 'valid' in line:            
             data = line.split(' ')[-1]            
             data = data.split('\n')[0]
+            break
 
     # get all image path
     with open(data,'r') as f:
@@ -130,7 +131,7 @@ if __name__ == '__main__':
 
         if args.save_image_dir:
             frame = darknet.draw_boxes(detections, frame, class_colors, darknet_width)
-            cv2.imwrite(args.save_image_dir + 'out_' + name, frame)
+            cv2.imwrite(args.save_image_dir + '/out_' + name, frame)
             #print(f'- [x] save image {name} to {args.save_image_dir}')
 
         if args.detection_dir:
