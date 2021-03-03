@@ -18,10 +18,13 @@ for image_name in image_names:
     else:            
         raise RuntimeError(f'- [x] Not the correct image format: {image_name}, delete this image and xml please.')    
 del image_names
-
+k = input('delete xml not in images dir? [y/n]')
+if not k == 'y':
+    raise RuntimeWarning('exit')
 for xml in xmls_list:
     if xml.split('.xml')[0] not in name_list:        
         os.remove('./Annotations/' + xml)
+        print(f"delete {xml}")
         num += 1
 
 print(f'- [x] Remove: {num} xml file')
