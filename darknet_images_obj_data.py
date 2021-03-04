@@ -1,5 +1,7 @@
 """
-Author: LiaoSteve
+Author: Yu-Hsien Liao(LiaoSteve)
+Date: 2021/3/3
+Description: detect the objects in the image sets
 """
 from ctypes import *
 import random
@@ -8,12 +10,8 @@ import cv2
 import darknet
 import argparse
 
-sets=[('2007', 'train'), ('2007', 'trainval'), ('2007', 'val'), ('2007', 'test')]
-
 def parser():
-    parser = argparse.ArgumentParser(description="YOLO Object Detection") 
-    parser.add_argument("--dataset_list", type=str, default="./data/",
-                        help="path to your image set ")  
+    parser = argparse.ArgumentParser(description="YOLO Object Detection")   
 
     parser.add_argument("--save_dir", type=str, default="./predict_image/1_best/",
                         help="path to save detection images")
@@ -30,7 +28,7 @@ def parser():
     parser.add_argument("--thresh", type=float, default=.25,
                         help="remove detections with confidence below this value")    
 
-    parser.add_argument("--iou_thresh", type=float, default=.45,
+    parser.add_argument("--iou_thresh", type=float, default=.5,
                         help="nms: remove detections with iou higher this value") 
     return parser.parse_args()
 
@@ -44,8 +42,6 @@ def check_arguments_errors(args):
         raise(ValueError("Invalid weight path {}".format(os.path.abspath(args.weights))))
     if not os.path.exists(args.data_file):
         raise(ValueError("Invalid data file path {}".format(os.path.abspath(args.data_file))))
-    if not os.path.exists(args.dataset_list):
-        raise(ValueError("Invalid image set file path {}".format(os.path.abspath(args.data_file))))
     os.makedirs(args.save_dir, exist_ok=1)
 
 
@@ -63,17 +59,40 @@ if __name__ == '__main__':
     darknet_height = darknet.network_height(network)
     darknet_image = darknet.make_image(darknet_width, darknet_height, 3)    
     info = dict()   
-        
-    for year, set in sets:
-        save_dir = args.save_dir + set +'/'
+    sets = []
+
+    # get the valid path
+    with open(args.data_file,'r') as f:
+        data = f.readlines()
+
+    for line in data:
+        if 'train' in line:            
+            line = line.split(' ')[-1]            
+            line = line.split('\n')[0]
+            sets.append(('train',line))
+            break
+
+    for line in data:
+        if 'valid' in line:            
+            line = line.split(' ')[-1]            
+            line = line.split('\n')[0]
+            sets.append(('valid',line))
+            break
+
+    for types, data in sets:
+        # get all image path
+        with open(data,'r') as f:
+            image_list = f.readlines()
+
+        save_dir = args.save_dir + types +'/'
         os.makedirs(save_dir, exist_ok=1)
         temps = list()      
-        images = list()
-        f = open(args.dataset_list+year+'_'+set+'.txt')
-        for filename in f.readlines():
+        images = list()        
+
+        for filename in image_list:
             filename = filename.strip('\n')
             temps.append(filename)
-        f.close()
+
         for filename in temps:
             if filename.endswith('jpg') or filename.endswith('png')\
                 or filename.endswith('jpeg') or filename.endswith('JPG')\
@@ -81,6 +100,7 @@ if __name__ == '__main__':
                 images.append(filename)
             else:        
                 raise RuntimeError(f'notice that {filename} image format are not accepted(.jpg, .png, .jpeg)')
+        
         for image in images:        
             frame = cv2.imread(image)          
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -91,7 +111,7 @@ if __name__ == '__main__':
             frame = darknet.draw_boxes(detections, frame, class_colors, darknet_width)
             cv2.imwrite(save_dir + image.split('/')[-1], frame)
             print(f'- [x] save image {image} to {save_dir}')
-        info[set]= len(images)       
+        info[sets]= len(images)       
         del temps
         del images
     print(info)
