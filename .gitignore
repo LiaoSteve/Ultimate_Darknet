@@ -8,7 +8,6 @@
 *.dll
 *.lib
 *.dylib
-*.keep
 *.analysis
 *.split
 *.discription
@@ -29,7 +28,6 @@ yolov4-tiny.conv.29
 anchors.txt
 *.log
 *.txt
-data/obj.data
 data/2007_*
 data/obj.*
 data/VOCdevkit/VOC2007/Annotations/
