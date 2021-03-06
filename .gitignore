@@ -11,6 +11,7 @@
 *.analysis
 *.split
 *.discription
+*.keep
 __pycache__/
 predict/
 mAP/

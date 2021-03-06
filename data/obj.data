@@ -1,0 +1,10 @@
+classes = 2
+#train = data/nested_cv_dataset/outer_cv_5-1/inner_cv_2-1/train.txt
+#valid = data/nested_cv_dataset/outer_cv_5-1/inner_cv_2-1/val.txt
+train = data/2007_train.txt
+valid = data/2007_val.txt
+#train = data/cv_dataset/cv_5-1/2007_train_cv_5-1.txt
+#valid = data/cv_dataset/cv_5-1/2007_test_cv_5-1.txt
+names = data/obj.names
+backup = backup/
+# notice the space near the '=' symbol
