@@ -16,10 +16,10 @@ def parser():
     parser.add_argument("--save_dir", type=str, default="./predict_image/1_best/",
                         help="path to save detection images")
 
-    parser.add_argument("--weights", default="./backup/yolov4_8_best.weights",
+    parser.add_argument("--weights", default="./backup/yolov4_3_best.weights",
                         help="yolo weights path") 
 
-    parser.add_argument("--config_file", default="./cfg/yolov4_8.cfg",
+    parser.add_argument("--config_file", default="./cfg/nested_cv/yolov4_3.cfg",
                         help="path to config file")
 
     parser.add_argument("--data_file", default="./data/obj.data",
@@ -111,7 +111,7 @@ if __name__ == '__main__':
             frame = darknet.draw_boxes(detections, frame, class_colors, darknet_width)
             cv2.imwrite(save_dir + image.split('/')[-1], frame)
             print(f'- [x] save image {image} to {save_dir}')
-        info[sets]= len(images)       
+        info[types]= len(images)       
         del temps
         del images
     print(info)
