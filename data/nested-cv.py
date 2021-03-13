@@ -9,7 +9,7 @@ import random
 import os
 
 # outer fold k > 0
-k = 5
+k = 2
 if not k > 1: raise RuntimeError('change k > 1') 
 
 # inner fold k2 >= 0
@@ -116,6 +116,8 @@ for j in range(k):
         c3 += 1
         inner_train.close()
         inner_val.close()
+    c3 = 0
+    inner_CV_list = []
     c += 1   
     test.close()
     trainval.close()
