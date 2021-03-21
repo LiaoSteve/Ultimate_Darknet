@@ -1,28 +1,59 @@
- CUDNN_HALF=1 
-net.optimized_memory = 0 
 mini_batch = 1, batch = 4, time_steps = 1, train = 0 
+   layer   filters  size/strd(dil)      input                output
+   0 conv     32       3 x 3/ 2    864 x 864 x   3 ->  432 x 432 x  32 0.322 BF
+   1 conv     64       3 x 3/ 2    432 x 432 x  32 ->  216 x 216 x  64 1.720 BF
+   2 conv     64       3 x 3/ 1    216 x 216 x  64 ->  216 x 216 x  64 3.440 BF
+   3 route  2 		                       1/2 ->  216 x 216 x  32 
+   4 conv     32       3 x 3/ 1    216 x 216 x  32 ->  216 x 216 x  32 0.860 BF
+   5 conv     32       3 x 3/ 1    216 x 216 x  32 ->  216 x 216 x  32 0.860 BF
+   6 route  5 4 	                           ->  216 x 216 x  64 
+   7 conv     64       1 x 1/ 1    216 x 216 x  64 ->  216 x 216 x  64 0.382 BF
+   8 route  2 7 	                           ->  216 x 216 x 128 
+   9 max                2x 2/ 2    216 x 216 x 128 ->  108 x 108 x 128 0.006 BF
+  10 conv    128       3 x 3/ 1    108 x 108 x 128 ->  108 x 108 x 128 3.440 BF
+  11 route  10 		                       1/2 ->  108 x 108 x  64 
+  12 conv     64       3 x 3/ 1    108 x 108 x  64 ->  108 x 108 x  64 0.860 BF
+  13 conv     64       3 x 3/ 1    108 x 108 x  64 ->  108 x 108 x  64 0.860 BF
+  14 route  13 12 	                           ->  108 x 108 x 128 
+  15 conv    128       1 x 1/ 1    108 x 108 x 128 ->  108 x 108 x 128 0.382 BF
+  16 route  10 15 	                           ->  108 x 108 x 256 
+  17 max                2x 2/ 2    108 x 108 x 256 ->   54 x  54 x 256 0.003 BF
+  18 conv    256       3 x 3/ 1     54 x  54 x 256 ->   54 x  54 x 256 3.440 BF
+  19 route  18 		                       1/2 ->   54 x  54 x 128 
+  20 conv    128       3 x 3/ 1     54 x  54 x 128 ->   54 x  54 x 128 0.860 BF
+  21 conv    128       3 x 3/ 1     54 x  54 x 128 ->   54 x  54 x 128 0.860 BF
+  22 route  21 20 	                           ->   54 x  54 x 256 
+  23 conv    256       1 x 1/ 1     54 x  54 x 256 ->   54 x  54 x 256 0.382 BF
+  24 route  18 23 	                           ->   54 x  54 x 512 
+  25 max                2x 2/ 2     54 x  54 x 512 ->   27 x  27 x 512 0.001 BF
+  26 conv    512       3 x 3/ 1     27 x  27 x 512 ->   27 x  27 x 512 3.440 BF
+  27 conv    256       1 x 1/ 1     27 x  27 x 512 ->   27 x  27 x 256 0.191 BF
+  28 conv    512       3 x 3/ 1     27 x  27 x 256 ->   27 x  27 x 512 1.720 BF
+  29 conv     21       1 x 1/ 1     27 x  27 x 512 ->   27 x  27 x  21 0.016 BF
+  30 yolo
+[yolo] params: iou loss: ciou (4), iou_norm: 0.07, obj_norm: 1.00, cls_norm: 1.00, delta_norm: 1.00, scale_x_y: 1.05
 nms_kind: greedynms (1), beta = 0.600000 
+  31 route  27 		                           ->   27 x  27 x 256 
+  32 conv    128       1 x 1/ 1     27 x  27 x 256 ->   27 x  27 x 128 0.048 BF
+  33 upsample                 2x    27 x  27 x 128 ->   54 x  54 x 128
+  34 route  33 23 	                           ->   54 x  54 x 384 
+  35 conv    256       3 x 3/ 1     54 x  54 x 384 ->   54 x  54 x 256 5.160 BF
+  36 conv     21       1 x 1/ 1     54 x  54 x 256 ->   54 x  54 x  21 0.031 BF
+  37 yolo
+[yolo] params: iou loss: ciou (4), iou_norm: 0.07, obj_norm: 1.00, cls_norm: 1.00, delta_norm: 1.00, scale_x_y: 1.05
 nms_kind: greedynms (1), beta = 0.600000 
+  38 route  35 		                           ->   54 x  54 x 256 
+  39 conv     64       1 x 1/ 1     54 x  54 x 256 ->   54 x  54 x  64 0.096 BF
+  40 upsample                 2x    54 x  54 x  64 ->  108 x 108 x  64
+  41 route  40 15 	                           ->  108 x 108 x 192 
+  42 conv    128       3 x 3/ 1    108 x 108 x 192 ->  108 x 108 x 128 5.160 BF
+  43 conv     21       1 x 1/ 1    108 x 108 x 128 ->  108 x 108 x  21 0.063 BF
+  44 yolo
+[yolo] params: iou loss: ciou (4), iou_norm: 0.07, obj_norm: 1.00, cls_norm: 1.00, delta_norm: 1.00, scale_x_y: 1.05
 nms_kind: greedynms (1), beta = 0.600000 
-
- seen 64, trained: 633 K-images (9 Kilo-batches_64) 
-
- calculation mAP (mean average precision)...
- Detection layer: 30 - type = 28 
- Detection layer: 37 - type = 28 
- Detection layer: 44 - type = 28 
-
- detections_count = 7658, unique_truth_count = 2055  
- rank = 0 of ranks = 7658  rank = 100 of ranks = 7658  rank = 200 of ranks = 7658  rank = 300 of ranks = 7658  rank = 400 of ranks = 7658  rank = 500 of ranks = 7658  rank = 600 of ranks = 7658  rank = 700 of ranks = 7658  rank = 800 of ranks = 7658  rank = 900 of ranks = 7658  rank = 1000 of ranks = 7658  rank = 1100 of ranks = 7658  rank = 1200 of ranks = 7658  rank = 1300 of ranks = 7658  rank = 1400 of ranks = 7658  rank = 1500 of ranks = 7658  rank = 1600 of ranks = 7658  rank = 1700 of ranks = 7658  rank = 1800 of ranks = 7658  rank = 1900 of ranks = 7658  rank = 2000 of ranks = 7658  rank = 2100 of ranks = 7658  rank = 2200 of ranks = 7658  rank = 2300 of ranks = 7658  rank = 2400 of ranks = 7658  rank = 2500 of ranks = 7658  rank = 2600 of ranks = 7658  rank = 2700 of ranks = 7658  rank = 2800 of ranks = 7658  rank = 2900 of ranks = 7658  rank = 3000 of ranks = 7658  rank = 3100 of ranks = 7658  rank = 3200 of ranks = 7658  rank = 3300 of ranks = 7658  rank = 3400 of ranks = 7658  rank = 3500 of ranks = 7658  rank = 3600 of ranks = 7658  rank = 3700 of ranks = 7658  rank = 3800 of ranks = 7658  rank = 3900 of ranks = 7658  rank = 4000 of ranks = 7658  rank = 4100 of ranks = 7658  rank = 4200 of ranks = 7658  rank = 4300 of ranks = 7658  rank = 4400 of ranks = 7658  rank = 4500 of ranks = 7658  rank = 4600 of ranks = 7658  rank = 4700 of ranks = 7658  rank = 4800 of ranks = 7658  rank = 4900 of ranks = 7658  rank = 5000 of ranks = 7658  rank = 5100 of ranks = 7658  rank = 5200 of ranks = 7658  rank = 5300 of ranks = 7658  rank = 5400 of ranks = 7658  rank = 5500 of ranks = 7658  rank = 5600 of ranks = 7658  rank = 5700 of ranks = 7658  rank = 5800 of ranks = 7658  rank = 5900 of ranks = 7658  rank = 6000 of ranks = 7658  rank = 6100 of ranks = 7658  rank = 6200 of ranks = 7658  rank = 6300 of ranks = 7658  rank = 6400 of ranks = 7658  rank = 6500 of ranks = 7658  rank = 6600 of ranks = 7658  rank = 6700 of ranks = 7658  rank = 6800 of ranks = 7658  rank = 6900 of ranks = 7658  rank = 7000 of ranks = 7658  rank = 7100 of ranks = 7658  rank = 7200 of ranks = 7658  rank = 7300 of ranks = 7658  rank = 7400 of ranks = 7658  rank = 7500 of ranks = 7658  rank = 7600 of ranks = 7658 class_id = 0, name = garbage, ap = 58.99%   	 (TP = 820, FP = 432) 
-class_id = 1, name = bottle, ap = 78.97%   	 (TP = 469, FP = 127) 
-
- for conf_thresh = 0.25, precision = 0.70, recall = 0.63, F1-score = 0.66 
- for conf_thresh = 0.25, TP = 1289, FP = 559, FN = 766, average IoU = 52.75 % 
-
- IoU threshold = 50 %, used Area-Under-Curve for each unique Recall 
- mean average precision (mAP@0.50) = 0.689769, or 68.98 % 
-
-Set -points flag:
- `-points 101` for MS COCO 
- `-points 11` for PascalVOC 2007 (uncomment `difficult` in voc.data) 
- `-points 0` (AUC) for ImageNet, PascalVOC 2010-2012, your custom dataset
+Total BFLOPS 34.602 
+avg_outputs = 1223197 
+ Allocate additional workspace_size = 26.22 MB 
+Loading weights from backup/yolov4-tiny-3l-3_best.weights...
+ seen 64, trained: 597 K-images (9 Kilo-batches_64) 
+Done! Loaded 45 layers from weights-file 
