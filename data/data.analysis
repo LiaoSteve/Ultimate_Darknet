@@ -1,0 +1,11 @@
+Skip garbage object, difficult 1
+---- DONE ----
+- [x] Turn 2795 .xml files to 2795 .txt files
+- [x] JPEGImages: 2795 images
+- [x] label: 2795
+---- Info ----
+- [x] garbage: 5938 objects
+- [x] bottle: 2963 objects
+- [x] Negative image: 550
+- [x] difficult object: 1
+- [x] not my desired object: 0
