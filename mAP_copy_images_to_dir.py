@@ -34,5 +34,5 @@ for i in tqdm(range(len(image_list))):
     path, name = os.path.split(image)  
     name, _ = name.split('.')  
     name = name + '.jpg'
-    cv2.imwrite(str(output_image_dir/Path(name)), frame)
+    cv2.imwrite(str(output_image_dir/Path(name)), frame, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
 print('Done')

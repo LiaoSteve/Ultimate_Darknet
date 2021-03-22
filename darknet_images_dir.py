@@ -8,16 +8,15 @@ import argparse
 
 def parser():
     parser = argparse.ArgumentParser(description="YOLO Object Detection") 
-    parser.add_argument("--dataset_dir", type=str, default="/home/ti-2080/steve/trash_video/DJI/images_DJI_2/",
-                        help="path to your image set ")
+    parser.add_argument("--dataset_dir", type=str, default="/home/ti/steve/trash_dataset/data8_crawler/JPEGImages/",help="path to your image set ")
 
-    parser.add_argument("--save_dir", type=str, default="./predict_image/DJI_1/3000/",
+    parser.add_argument("--save_dir", type=str, default="./predict_image/no_crawler500/best/",
                         help="path to save detection images")
 
-    parser.add_argument("--weights", default="./backup/yolov4_8_sat_3000.weights",
+    parser.add_argument("--weights", default="./backup/yolov4_8_best.weights",
                         help="yolo weights path") 
 
-    parser.add_argument("--config_file", default="./cfg/yolov4_8_sat.cfg",
+    parser.add_argument("--config_file", default="./cfg/yolov4_8.cfg",
                         help="path to config file")
 
     parser.add_argument("--data_file", default="./data/obj.data",
@@ -26,7 +25,7 @@ def parser():
     parser.add_argument("--thresh", type=float, default=.25,
                         help="remove detections with confidence below this value")    
 
-    parser.add_argument("--iou_thresh", type=float, default=.45,
+    parser.add_argument("--iou_thresh", type=float, default=.5,
                         help="nms: remove detections with iou higher this value")    
     
     return parser.parse_args()
@@ -80,6 +79,6 @@ if __name__ == '__main__':
         darknet.copy_image_from_bytes(darknet_image, frame_resized.tobytes())
         detections = darknet.detect_image(network, class_names, darknet_image, thresh=args.thresh, nms=args.iou_thresh)
         frame = darknet.draw_boxes(detections, frame, class_colors, darknet_width)
-        cv2.imwrite(args.save_dir + 'out_' + image, frame)
+        cv2.imwrite(args.save_dir + 'out_' + image, frame, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
         #print(f'- [x] save image {image} to {args.save_dir}')
     print(f'- [OK] Save {len(images)} images done')

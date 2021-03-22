@@ -8,20 +8,20 @@ import cv2
 import darknet
 import argparse
 
-sets=[('2007', 'train'), ('2007', 'trainval'), ('2007', 'val'), ('2007', 'test')]
+sets=[('2007', 'test'), ('2007', 'val'), ('2007', 'train')]
 
 def parser():
     parser = argparse.ArgumentParser(description="YOLO Object Detection") 
     parser.add_argument("--dataset_list", type=str, default="./data/",
                         help="path to your image set ")  
 
-    parser.add_argument("--save_dir", type=str, default="./predict_image/1_best/",
+    parser.add_argument("--save_dir", type=str, default="./predict_image/tiny-best/",
                         help="path to save detection images")
 
-    parser.add_argument("--weights", default="./backup/yolov4_8_best.weights",
+    parser.add_argument("--weights", default="./backup/yolov4-tiny-3l-2_best.weights",
                         help="yolo weights path") 
 
-    parser.add_argument("--config_file", default="./cfg/yolov4_8.cfg",
+    parser.add_argument("--config_file", default="./cfg/tiny/yolov4-tiny-3l-2.cfg",
                         help="path to config file")
 
     parser.add_argument("--data_file", default="./data/obj.data",
@@ -89,7 +89,7 @@ if __name__ == '__main__':
             darknet.copy_image_from_bytes(darknet_image, frame_resized.tobytes())
             detections = darknet.detect_image(network, class_names, darknet_image, thresh=args.thresh, nms=args.iou_thresh)
             frame = darknet.draw_boxes(detections, frame, class_colors, darknet_width)
-            cv2.imwrite(save_dir + image.split('/')[-1], frame)
+            cv2.imwrite(save_dir + image.split('/')[-1], frame, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
             print(f'- [x] save image {image} to {save_dir}')
         info[set]= len(images)       
         del temps

@@ -13,13 +13,13 @@ import argparse
 def parser():
     parser = argparse.ArgumentParser(description="YOLO Object Detection")   
 
-    parser.add_argument("--save_dir", type=str, default="./predict_image/1_best/",
+    parser.add_argument("--save_dir", type=str, default="./predict_image/2_best/",
                         help="path to save detection images")
 
-    parser.add_argument("--weights", default="./backup/yolov4_3_best.weights",
+    parser.add_argument("--weights", default="./backup/yolov4_8_best.weights",
                         help="yolo weights path") 
 
-    parser.add_argument("--config_file", default="./cfg/nested_cv/yolov4_3.cfg",
+    parser.add_argument("--config_file", default="./cfg/yolov4_8.cfg",
                         help="path to config file")
 
     parser.add_argument("--data_file", default="./data/obj.data",
