@@ -1,0 +1,10 @@
+---- DONE ----
+- [x] Turn 1319 .xml files to 1319 .txt files
+- [x] JPEGImages: 1319 images
+- [x] label: 1319
+---- Info ----
+- [x] garbage: 3904 objects
+- [x] bottle: 2517 objects
+- [x] Negative image: 456
+- [x] difficult object: 0
+- [x] not my desired object: 0
