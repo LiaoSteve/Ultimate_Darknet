@@ -28,12 +28,12 @@ def parser():
 
     parser.add_argument(
             "--weights", 
-            default="backup/yolov4_8_best.weights",
+            default="backup/yolov4-tiny-3l-3_best.weights",
             help="yolo weights path") 
 
     parser.add_argument(
             "--config_file", 
-            default="cfg/yolov4_8.cfg",
+            default="cfg/tiny/yolov4-tiny-3l-3.cfg",
             help="path to config file")
 
     parser.add_argument(
@@ -44,7 +44,7 @@ def parser():
     parser.add_argument(
             "--save_image_dir", 
             type=str, 
-            default="predict/cv5-1_test",
+            default="predict/cv5-5_tiny",
             help="path to save detection images")
 
     parser.add_argument(
@@ -131,7 +131,7 @@ if __name__ == '__main__':
 
         if args.save_image_dir:
             frame = darknet.draw_boxes(detections, frame, class_colors, darknet_width)
-            cv2.imwrite(args.save_image_dir + '/out_' + name, frame)
+            cv2.imwrite(args.save_image_dir + '/out_' + name, frame, [int(cv2.IMWRITE_JPEG_QUALITY), 100])
             #print(f'- [x] save image {name} to {args.save_image_dir}')
 
         if args.detection_dir:
