@@ -1,0 +1,45 @@
+ CUDA-version: 10000 (11020), cuDNN: 7.4.1, CUDNN_HALF=1, GPU count: 1  
+ CUDNN_HALF=1 
+ OpenCV version: 3.2.0
+ 0 : compute_capability = 750, cudnn_half = 1, GPU: GeForce RTX 2080 Ti 
+net.optimized_memory = 0 
+mini_batch = 1, batch = 8, time_steps = 1, train = 0 
+   layer   filters  size/strd(dil)      input                output
+   0 conv     16       3 x 3/ 1    864 x 864 x   3 ->  864 x 864 x  16 0.645 BF
+   1 max                2x 2/ 2    864 x 864 x  16 ->  432 x 432 x  16 0.012 BF
+   2 conv     32       3 x 3/ 1    432 x 432 x  16 ->  432 x 432 x  32 1.720 BF
+   3 max                2x 2/ 2    432 x 432 x  32 ->  216 x 216 x  32 0.006 BF
+   4 conv     64       3 x 3/ 1    216 x 216 x  32 ->  216 x 216 x  64 1.720 BF
+   5 max                2x 2/ 2    216 x 216 x  64 ->  108 x 108 x  64 0.003 BF
+   6 conv    128       3 x 3/ 1    108 x 108 x  64 ->  108 x 108 x 128 1.720 BF
+   7 max                2x 2/ 2    108 x 108 x 128 ->   54 x  54 x 128 0.001 BF
+   8 conv    256       3 x 3/ 1     54 x  54 x 128 ->   54 x  54 x 256 1.720 BF
+   9 max                2x 2/ 2     54 x  54 x 256 ->   27 x  27 x 256 0.001 BF
+  10 conv    512       3 x 3/ 1     27 x  27 x 256 ->   27 x  27 x 512 1.720 BF
+  11 max                2x 2/ 1     27 x  27 x 512 ->   27 x  27 x 512 0.001 BF
+  12 conv    512       3 x 3/ 1     27 x  27 x 512 ->   27 x  27 x 512 3.440 BF
+  13 Shortcut Layer: 10,  wt = 0, wn = 0, outputs:  27 x  27 x 512 0.000 BF
+  14 conv    256       1 x 1/ 1     27 x  27 x 512 ->   27 x  27 x 256 0.191 BF
+  15 conv    256       3 x 3/ 1     27 x  27 x 256 ->   27 x  27 x 256 0.860 BF
+  16 Shortcut Layer: 14,  wt = 0, wn = 0, outputs:  27 x  27 x 256 0.000 BF
+  17 conv     21       1 x 1/ 1     27 x  27 x 256 ->   27 x  27 x  21 0.008 BF
+  18 yolo
+[yolo] params: iou loss: mse (2), iou_norm: 0.75, obj_norm: 1.00, cls_norm: 1.00, delta_norm: 1.00, scale_x_y: 1.00
+  19 route  15 		                           ->   27 x  27 x 256 
+  20 conv    128       1 x 1/ 1     27 x  27 x 256 ->   27 x  27 x 128 0.048 BF
+  21 upsample                 2x    27 x  27 x 128 ->   54 x  54 x 128
+  22 Shortcut Layer: 8,  wt = 0, wn = 0, outputs:  54 x  54 x 128 0.000 BF
+ (  54 x  54 x 128) + (  54 x  54 x 256) 
+  23 conv    128       3 x 3/ 1     54 x  54 x 128 ->   54 x  54 x 128 0.860 BF
+  24 Shortcut Layer: 21,  wt = 0, wn = 0, outputs:  54 x  54 x 128 0.000 BF
+  25 Shortcut Layer: 8,  wt = 0, wn = 0, outputs:  54 x  54 x 128 0.000 BF
+ (  54 x  54 x 128) + (  54 x  54 x 256) 
+  26 conv     21       1 x 1/ 1     54 x  54 x 128 ->   54 x  54 x  21 0.016 BF
+  27 yolo
+[yolo] params: iou loss: mse (2), iou_norm: 0.75, obj_norm: 1.00, cls_norm: 1.00, delta_norm: 1.00, scale_x_y: 1.00
+Total BFLOPS 14.693 
+avg_outputs = 1188530 
+ Allocate additional workspace_size = 40.31 MB 
+Loading weights from backup/yolov3-tiny-prn_best.weights...
+ seen 64, trained: 556 K-images (8 Kilo-batches_64) 
+Done! Loaded 28 layers from weights-file 
