@@ -1,0 +1,229 @@
+ CUDA-version: 10000 (11020), cuDNN: 7.4.1, CUDNN_HALF=1, GPU count: 1  
+ CUDNN_HALF=1 
+ OpenCV version: 3.2.0
+ 0 : compute_capability = 750, cudnn_half = 1, GPU: GeForce RTX 2080 Ti 
+net.optimized_memory = 0 
+mini_batch = 1, batch = 20, time_steps = 1, train = 0 
+   layer   filters  size/strd(dil)      input                output
+   0 conv     32       3 x 3/ 1    640 x 640 x   3 ->  640 x 640 x  32 0.708 BF
+   1 conv     80       3 x 3/ 2    640 x 640 x  32 ->  320 x 320 x  80 4.719 BF
+   2 conv     40       1 x 1/ 1    320 x 320 x  80 ->  320 x 320 x  40 0.655 BF
+   3 conv     80       3 x 3/ 1    320 x 320 x  40 ->  320 x 320 x  80 5.898 BF
+   4 Shortcut Layer: 1,  wt = 0, wn = 0, outputs: 320 x 320 x  80 0.008 BF
+   5 conv    160       3 x 3/ 2    320 x 320 x  80 ->  160 x 160 x 160 5.898 BF
+   6 conv     80       1 x 1/ 1    160 x 160 x 160 ->  160 x 160 x  80 0.655 BF
+   7 route  5 		                           ->  160 x 160 x 160 
+   8 conv     80       1 x 1/ 1    160 x 160 x 160 ->  160 x 160 x  80 0.655 BF
+   9 conv     80       1 x 1/ 1    160 x 160 x  80 ->  160 x 160 x  80 0.328 BF
+  10 conv     80       3 x 3/ 1    160 x 160 x  80 ->  160 x 160 x  80 2.949 BF
+  11 Shortcut Layer: 8,  wt = 0, wn = 0, outputs: 160 x 160 x  80 0.002 BF
+  12 conv     80       1 x 1/ 1    160 x 160 x  80 ->  160 x 160 x  80 0.328 BF
+  13 conv     80       3 x 3/ 1    160 x 160 x  80 ->  160 x 160 x  80 2.949 BF
+  14 Shortcut Layer: 11,  wt = 0, wn = 0, outputs: 160 x 160 x  80 0.002 BF
+  15 conv     80       1 x 1/ 1    160 x 160 x  80 ->  160 x 160 x  80 0.328 BF
+  16 conv     80       3 x 3/ 1    160 x 160 x  80 ->  160 x 160 x  80 2.949 BF
+  17 Shortcut Layer: 14,  wt = 0, wn = 0, outputs: 160 x 160 x  80 0.002 BF
+  18 conv     80       1 x 1/ 1    160 x 160 x  80 ->  160 x 160 x  80 0.328 BF
+  19 route  18 6 	                           ->  160 x 160 x 160 
+  20 conv    160       1 x 1/ 1    160 x 160 x 160 ->  160 x 160 x 160 1.311 BF
+  21 conv    320       3 x 3/ 2    160 x 160 x 160 ->   80 x  80 x 320 5.898 BF
+  22 conv    160       1 x 1/ 1     80 x  80 x 320 ->   80 x  80 x 160 0.655 BF
+  23 route  21 		                           ->   80 x  80 x 320 
+  24 conv    160       1 x 1/ 1     80 x  80 x 320 ->   80 x  80 x 160 0.655 BF
+  25 conv    160       1 x 1/ 1     80 x  80 x 160 ->   80 x  80 x 160 0.328 BF
+  26 conv    160       3 x 3/ 1     80 x  80 x 160 ->   80 x  80 x 160 2.949 BF
+  27 Shortcut Layer: 24,  wt = 0, wn = 0, outputs:  80 x  80 x 160 0.001 BF
+  28 conv    160       1 x 1/ 1     80 x  80 x 160 ->   80 x  80 x 160 0.328 BF
+  29 conv    160       3 x 3/ 1     80 x  80 x 160 ->   80 x  80 x 160 2.949 BF
+  30 Shortcut Layer: 27,  wt = 0, wn = 0, outputs:  80 x  80 x 160 0.001 BF
+  31 conv    160       1 x 1/ 1     80 x  80 x 160 ->   80 x  80 x 160 0.328 BF
+  32 conv    160       3 x 3/ 1     80 x  80 x 160 ->   80 x  80 x 160 2.949 BF
+  33 Shortcut Layer: 30,  wt = 0, wn = 0, outputs:  80 x  80 x 160 0.001 BF
+  34 conv    160       1 x 1/ 1     80 x  80 x 160 ->   80 x  80 x 160 0.328 BF
+  35 conv    160       3 x 3/ 1     80 x  80 x 160 ->   80 x  80 x 160 2.949 BF
+  36 Shortcut Layer: 33,  wt = 0, wn = 0, outputs:  80 x  80 x 160 0.001 BF
+  37 conv    160       1 x 1/ 1     80 x  80 x 160 ->   80 x  80 x 160 0.328 BF
+  38 conv    160       3 x 3/ 1     80 x  80 x 160 ->   80 x  80 x 160 2.949 BF
+  39 Shortcut Layer: 36,  wt = 0, wn = 0, outputs:  80 x  80 x 160 0.001 BF
+  40 conv    160       1 x 1/ 1     80 x  80 x 160 ->   80 x  80 x 160 0.328 BF
+  41 conv    160       3 x 3/ 1     80 x  80 x 160 ->   80 x  80 x 160 2.949 BF
+  42 Shortcut Layer: 39,  wt = 0, wn = 0, outputs:  80 x  80 x 160 0.001 BF
+  43 conv    160       1 x 1/ 1     80 x  80 x 160 ->   80 x  80 x 160 0.328 BF
+  44 conv    160       3 x 3/ 1     80 x  80 x 160 ->   80 x  80 x 160 2.949 BF
+  45 Shortcut Layer: 42,  wt = 0, wn = 0, outputs:  80 x  80 x 160 0.001 BF
+  46 conv    160       1 x 1/ 1     80 x  80 x 160 ->   80 x  80 x 160 0.328 BF
+  47 conv    160       3 x 3/ 1     80 x  80 x 160 ->   80 x  80 x 160 2.949 BF
+  48 Shortcut Layer: 45,  wt = 0, wn = 0, outputs:  80 x  80 x 160 0.001 BF
+  49 conv    160       1 x 1/ 1     80 x  80 x 160 ->   80 x  80 x 160 0.328 BF
+  50 conv    160       3 x 3/ 1     80 x  80 x 160 ->   80 x  80 x 160 2.949 BF
+  51 Shortcut Layer: 48,  wt = 0, wn = 0, outputs:  80 x  80 x 160 0.001 BF
+  52 conv    160       1 x 1/ 1     80 x  80 x 160 ->   80 x  80 x 160 0.328 BF
+  53 conv    160       3 x 3/ 1     80 x  80 x 160 ->   80 x  80 x 160 2.949 BF
+  54 Shortcut Layer: 51,  wt = 0, wn = 0, outputs:  80 x  80 x 160 0.001 BF
+  55 conv    160       1 x 1/ 1     80 x  80 x 160 ->   80 x  80 x 160 0.328 BF
+  56 route  55 22 	                           ->   80 x  80 x 320 
+  57 conv    320       1 x 1/ 1     80 x  80 x 320 ->   80 x  80 x 320 1.311 BF
+  58 conv    640       3 x 3/ 2     80 x  80 x 320 ->   40 x  40 x 640 5.898 BF
+  59 conv    320       1 x 1/ 1     40 x  40 x 640 ->   40 x  40 x 320 0.655 BF
+  60 route  58 		                           ->   40 x  40 x 640 
+  61 conv    320       1 x 1/ 1     40 x  40 x 640 ->   40 x  40 x 320 0.655 BF
+  62 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+  63 conv    320       3 x 3/ 1     40 x  40 x 320 ->   40 x  40 x 320 2.949 BF
+  64 Shortcut Layer: 61,  wt = 0, wn = 0, outputs:  40 x  40 x 320 0.001 BF
+  65 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+  66 conv    320       3 x 3/ 1     40 x  40 x 320 ->   40 x  40 x 320 2.949 BF
+  67 Shortcut Layer: 64,  wt = 0, wn = 0, outputs:  40 x  40 x 320 0.001 BF
+  68 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+  69 conv    320       3 x 3/ 1     40 x  40 x 320 ->   40 x  40 x 320 2.949 BF
+  70 Shortcut Layer: 67,  wt = 0, wn = 0, outputs:  40 x  40 x 320 0.001 BF
+  71 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+  72 conv    320       3 x 3/ 1     40 x  40 x 320 ->   40 x  40 x 320 2.949 BF
+  73 Shortcut Layer: 70,  wt = 0, wn = 0, outputs:  40 x  40 x 320 0.001 BF
+  74 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+  75 conv    320       3 x 3/ 1     40 x  40 x 320 ->   40 x  40 x 320 2.949 BF
+  76 Shortcut Layer: 73,  wt = 0, wn = 0, outputs:  40 x  40 x 320 0.001 BF
+  77 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+  78 conv    320       3 x 3/ 1     40 x  40 x 320 ->   40 x  40 x 320 2.949 BF
+  79 Shortcut Layer: 76,  wt = 0, wn = 0, outputs:  40 x  40 x 320 0.001 BF
+  80 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+  81 conv    320       3 x 3/ 1     40 x  40 x 320 ->   40 x  40 x 320 2.949 BF
+  82 Shortcut Layer: 79,  wt = 0, wn = 0, outputs:  40 x  40 x 320 0.001 BF
+  83 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+  84 conv    320       3 x 3/ 1     40 x  40 x 320 ->   40 x  40 x 320 2.949 BF
+  85 Shortcut Layer: 82,  wt = 0, wn = 0, outputs:  40 x  40 x 320 0.001 BF
+  86 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+  87 conv    320       3 x 3/ 1     40 x  40 x 320 ->   40 x  40 x 320 2.949 BF
+  88 Shortcut Layer: 85,  wt = 0, wn = 0, outputs:  40 x  40 x 320 0.001 BF
+  89 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+  90 conv    320       3 x 3/ 1     40 x  40 x 320 ->   40 x  40 x 320 2.949 BF
+  91 Shortcut Layer: 88,  wt = 0, wn = 0, outputs:  40 x  40 x 320 0.001 BF
+  92 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+  93 route  92 59 	                           ->   40 x  40 x 640 
+  94 conv    640       1 x 1/ 1     40 x  40 x 640 ->   40 x  40 x 640 1.311 BF
+  95 conv   1280       3 x 3/ 2     40 x  40 x 640 ->   20 x  20 x1280 5.898 BF
+  96 conv    640       1 x 1/ 1     20 x  20 x1280 ->   20 x  20 x 640 0.655 BF
+  97 route  95 		                           ->   20 x  20 x1280 
+  98 conv    640       1 x 1/ 1     20 x  20 x1280 ->   20 x  20 x 640 0.655 BF
+  99 conv    640       1 x 1/ 1     20 x  20 x 640 ->   20 x  20 x 640 0.328 BF
+ 100 conv    640       3 x 3/ 1     20 x  20 x 640 ->   20 x  20 x 640 2.949 BF
+ 101 Shortcut Layer: 98,  wt = 0, wn = 0, outputs:  20 x  20 x 640 0.000 BF
+ 102 conv    640       1 x 1/ 1     20 x  20 x 640 ->   20 x  20 x 640 0.328 BF
+ 103 conv    640       3 x 3/ 1     20 x  20 x 640 ->   20 x  20 x 640 2.949 BF
+ 104 Shortcut Layer: 101,  wt = 0, wn = 0, outputs:  20 x  20 x 640 0.000 BF
+ 105 conv    640       1 x 1/ 1     20 x  20 x 640 ->   20 x  20 x 640 0.328 BF
+ 106 conv    640       3 x 3/ 1     20 x  20 x 640 ->   20 x  20 x 640 2.949 BF
+ 107 Shortcut Layer: 104,  wt = 0, wn = 0, outputs:  20 x  20 x 640 0.000 BF
+ 108 conv    640       1 x 1/ 1     20 x  20 x 640 ->   20 x  20 x 640 0.328 BF
+ 109 conv    640       3 x 3/ 1     20 x  20 x 640 ->   20 x  20 x 640 2.949 BF
+ 110 Shortcut Layer: 107,  wt = 0, wn = 0, outputs:  20 x  20 x 640 0.000 BF
+ 111 conv    640       1 x 1/ 1     20 x  20 x 640 ->   20 x  20 x 640 0.328 BF
+ 112 conv    640       3 x 3/ 1     20 x  20 x 640 ->   20 x  20 x 640 2.949 BF
+ 113 Shortcut Layer: 110,  wt = 0, wn = 0, outputs:  20 x  20 x 640 0.000 BF
+ 114 conv    640       1 x 1/ 1     20 x  20 x 640 ->   20 x  20 x 640 0.328 BF
+ 115 route  114 96 	                           ->   20 x  20 x1280 
+ 116 conv   1280       1 x 1/ 1     20 x  20 x1280 ->   20 x  20 x1280 1.311 BF
+ 117 conv    640       1 x 1/ 1     20 x  20 x1280 ->   20 x  20 x 640 0.655 BF
+ 118 route  116 		                           ->   20 x  20 x1280 
+ 119 conv    640       1 x 1/ 1     20 x  20 x1280 ->   20 x  20 x 640 0.655 BF
+ 120 conv    640       3 x 3/ 1     20 x  20 x 640 ->   20 x  20 x 640 2.949 BF
+ 121 conv    640       1 x 1/ 1     20 x  20 x 640 ->   20 x  20 x 640 0.328 BF
+ 122 max                5x 5/ 1     20 x  20 x 640 ->   20 x  20 x 640 0.006 BF
+ 123 route  121 		                           ->   20 x  20 x 640 
+ 124 max                9x 9/ 1     20 x  20 x 640 ->   20 x  20 x 640 0.021 BF
+ 125 route  121 		                           ->   20 x  20 x 640 
+ 126 max               13x13/ 1     20 x  20 x 640 ->   20 x  20 x 640 0.043 BF
+ 127 route  126 124 122 121 	                   ->   20 x  20 x2560 
+ 128 conv    640       1 x 1/ 1     20 x  20 x2560 ->   20 x  20 x 640 1.311 BF
+ 129 conv    640       3 x 3/ 1     20 x  20 x 640 ->   20 x  20 x 640 2.949 BF
+ 130 conv    640       1 x 1/ 1     20 x  20 x 640 ->   20 x  20 x 640 0.328 BF
+ 131 conv    640       3 x 3/ 1     20 x  20 x 640 ->   20 x  20 x 640 2.949 BF
+ 132 route  131 117 	                           ->   20 x  20 x1280 
+ 133 conv    640       1 x 1/ 1     20 x  20 x1280 ->   20 x  20 x 640 0.655 BF
+ 134 conv    320       1 x 1/ 1     20 x  20 x 640 ->   20 x  20 x 320 0.164 BF
+ 135 upsample                 2x    20 x  20 x 320 ->   40 x  40 x 320
+ 136 route  94 		                           ->   40 x  40 x 640 
+ 137 conv    320       1 x 1/ 1     40 x  40 x 640 ->   40 x  40 x 320 0.655 BF
+ 138 route  137 135 	                           ->   40 x  40 x 640 
+ 139 conv    320       1 x 1/ 1     40 x  40 x 640 ->   40 x  40 x 320 0.655 BF
+ 140 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+ 141 route  139 		                           ->   40 x  40 x 320 
+ 142 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+ 143 conv    320       3 x 3/ 1     40 x  40 x 320 ->   40 x  40 x 320 2.949 BF
+ 144 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+ 145 conv    320       3 x 3/ 1     40 x  40 x 320 ->   40 x  40 x 320 2.949 BF
+ 146 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+ 147 conv    320       3 x 3/ 1     40 x  40 x 320 ->   40 x  40 x 320 2.949 BF
+ 148 route  147 140 	                           ->   40 x  40 x 640 
+ 149 conv    320       1 x 1/ 1     40 x  40 x 640 ->   40 x  40 x 320 0.655 BF
+ 150 conv    160       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 160 0.164 BF
+ 151 upsample                 2x    40 x  40 x 160 ->   80 x  80 x 160
+ 152 route  57 		                           ->   80 x  80 x 320 
+ 153 conv    160       1 x 1/ 1     80 x  80 x 320 ->   80 x  80 x 160 0.655 BF
+ 154 route  153 151 	                           ->   80 x  80 x 320 
+ 155 conv    160       1 x 1/ 1     80 x  80 x 320 ->   80 x  80 x 160 0.655 BF
+ 156 conv    160       1 x 1/ 1     80 x  80 x 160 ->   80 x  80 x 160 0.328 BF
+ 157 route  155 		                           ->   80 x  80 x 160 
+ 158 conv    160       1 x 1/ 1     80 x  80 x 160 ->   80 x  80 x 160 0.328 BF
+ 159 conv    160       3 x 3/ 1     80 x  80 x 160 ->   80 x  80 x 160 2.949 BF
+ 160 conv    160       1 x 1/ 1     80 x  80 x 160 ->   80 x  80 x 160 0.328 BF
+ 161 conv    160       3 x 3/ 1     80 x  80 x 160 ->   80 x  80 x 160 2.949 BF
+ 162 conv    160       1 x 1/ 1     80 x  80 x 160 ->   80 x  80 x 160 0.328 BF
+ 163 conv    160       3 x 3/ 1     80 x  80 x 160 ->   80 x  80 x 160 2.949 BF
+ 164 route  163 156 	                           ->   80 x  80 x 320 
+ 165 conv    160       1 x 1/ 1     80 x  80 x 320 ->   80 x  80 x 160 0.655 BF
+ 166 conv    320       3 x 3/ 1     80 x  80 x 160 ->   80 x  80 x 320 5.898 BF
+ 167 conv     21       1 x 1/ 1     80 x  80 x 320 ->   80 x  80 x  21 0.086 BF
+ 168 yolo
+[yolo] params: iou loss: ciou (4), iou_norm: 0.05, obj_norm: 4.00, cls_norm: 0.50, delta_norm: 1.00, scale_x_y: 2.00
+nms_kind: diounms (2), beta = 0.600000 
+ 169 route  165 		                           ->   80 x  80 x 160 
+ 170 conv    320       3 x 3/ 2     80 x  80 x 160 ->   40 x  40 x 320 1.475 BF
+ 171 route  170 149 	                           ->   40 x  40 x 640 
+ 172 conv    320       1 x 1/ 1     40 x  40 x 640 ->   40 x  40 x 320 0.655 BF
+ 173 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+ 174 route  172 		                           ->   40 x  40 x 320 
+ 175 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+ 176 conv    320       3 x 3/ 1     40 x  40 x 320 ->   40 x  40 x 320 2.949 BF
+ 177 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+ 178 conv    320       3 x 3/ 1     40 x  40 x 320 ->   40 x  40 x 320 2.949 BF
+ 179 conv    320       1 x 1/ 1     40 x  40 x 320 ->   40 x  40 x 320 0.328 BF
+ 180 conv    320       3 x 3/ 1     40 x  40 x 320 ->   40 x  40 x 320 2.949 BF
+ 181 route  180 173 	                           ->   40 x  40 x 640 
+ 182 conv    320       1 x 1/ 1     40 x  40 x 640 ->   40 x  40 x 320 0.655 BF
+ 183 conv    640       3 x 3/ 1     40 x  40 x 320 ->   40 x  40 x 640 5.898 BF
+ 184 conv     21       1 x 1/ 1     40 x  40 x 640 ->   40 x  40 x  21 0.043 BF
+ 185 yolo
+[yolo] params: iou loss: ciou (4), iou_norm: 0.05, obj_norm: 1.00, cls_norm: 0.50, delta_norm: 1.00, scale_x_y: 2.00
+nms_kind: diounms (2), beta = 0.600000 
+ 186 route  182 		                           ->   40 x  40 x 320 
+ 187 conv    640       3 x 3/ 2     40 x  40 x 320 ->   20 x  20 x 640 1.475 BF
+ 188 route  187 133 	                           ->   20 x  20 x1280 
+ 189 conv    640       1 x 1/ 1     20 x  20 x1280 ->   20 x  20 x 640 0.655 BF
+ 190 conv    640       1 x 1/ 1     20 x  20 x 640 ->   20 x  20 x 640 0.328 BF
+ 191 route  189 		                           ->   20 x  20 x 640 
+ 192 conv    640       1 x 1/ 1     20 x  20 x 640 ->   20 x  20 x 640 0.328 BF
+ 193 conv    640       3 x 3/ 1     20 x  20 x 640 ->   20 x  20 x 640 2.949 BF
+ 194 conv    640       1 x 1/ 1     20 x  20 x 640 ->   20 x  20 x 640 0.328 BF
+ 195 conv    640       3 x 3/ 1     20 x  20 x 640 ->   20 x  20 x 640 2.949 BF
+ 196 conv    640       1 x 1/ 1     20 x  20 x 640 ->   20 x  20 x 640 0.328 BF
+ 197 conv    640       3 x 3/ 1     20 x  20 x 640 ->   20 x  20 x 640 2.949 BF
+ 198 route  197 190 	                           ->   20 x  20 x1280 
+ 199 conv    640       1 x 1/ 1     20 x  20 x1280 ->   20 x  20 x 640 0.655 BF
+ 200 conv   1280       3 x 3/ 1     20 x  20 x 640 ->   20 x  20 x1280 5.898 BF
+ 201 conv     21       1 x 1/ 1     20 x  20 x1280 ->   20 x  20 x  21 0.022 BF
+ 202 yolo
+[yolo] params: iou loss: ciou (4), iou_norm: 0.05, obj_norm: 0.40, cls_norm: 0.50, delta_norm: 1.00, scale_x_y: 2.00
+nms_kind: diounms (2), beta = 0.600000 
+Total BFLOPS 220.309 
+avg_outputs = 1000137 
+ Allocate additional workspace_size = 81.93 MB 
+Loading weights from backup/yolov4x-mish_best.weights...
+ seen 64, trained: 222 K-images (3 Kilo-batches_64) 
+Done! Loaded 203 layers from weights-file 
+
+ calculation mAP (mean average precision)...
+ Detection layer: 168 - type = 28 
+ Detection layer: 185 - type = 28 
+ Detection layer: 202 - type = 28 
+264
+
