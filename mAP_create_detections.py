@@ -56,7 +56,7 @@ def parser():
     parser.add_argument(
             "--thresh", 
             type=float, 
-            default=.01,
+            default=.001,
             help="remove detections with confidence below this value")    
 
     parser.add_argument(
