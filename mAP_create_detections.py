@@ -62,7 +62,7 @@ def parser():
     parser.add_argument(
             "--iou_thresh", 
             type=float, 
-            default=.5,
+            default=.4,
             help="nms: remove detections with iou higher this value") 
 
     return parser.parse_args()
