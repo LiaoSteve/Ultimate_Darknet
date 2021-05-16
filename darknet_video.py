@@ -15,17 +15,17 @@ import argparse
 
 def parser():
     parser = argparse.ArgumentParser(description="YOLO Object Detection")   
-    parser.add_argument("--input", default="/home/ti/steve/trash_dataset/FPV.avi",
+    parser.add_argument("--input", default="test2.mp4",
                         help="webcam or video path")
-    parser.add_argument("--weights", default="backup/HAIDA/yolov4-tiny-3l-7_best.weights",
+    parser.add_argument("--weights", default="test_backup/yolov4x-mish_best.weights",
                         help="yolo weights path") 
-    parser.add_argument("--config_file", default="./cfg/tiny/yolov4-tiny-3l-7.cfg",
+    parser.add_argument("--config_file", default="test_backup/yolov4x-mish.cfg",
                         help="path to config file")
     parser.add_argument("--data_file", default="./data/obj.data",
                         help="path to data file")
-    parser.add_argument("--thresh", type=float, default=.05,
+    parser.add_argument("--thresh", type=float, default=.45,
                         help="remove detections with confidence below this value")
-    parser.add_argument("--out_filename", type=str, default="HAIDA_FPV_tiny_best.avi",
+    parser.add_argument("--out_filename", type=str, default="",
                         help="inference video name. Not saved if empty")   
     parser.add_argument("--dont_show", default=1,
                         help="windown inference display. For headless systems")                        
@@ -85,6 +85,8 @@ if __name__ == '__main__':
     cap_fps = int(cap.get(5))
     print(cap_fps)
     video = set_saved_video(cap, args.out_filename, (cap_width, cap_hight), cap_fps)
+    fps = 0
+    n=0
 
     while cap.isOpened():
         ret, frame = cap.read()
@@ -96,10 +98,16 @@ if __name__ == '__main__':
         darknet.copy_image_from_bytes(darknet_image, frame_resized.tobytes())
         prev_time = time.time()
         detections = darknet.detect_image(network, class_names, darknet_image, thresh=args.thresh, nms=args.iou_thresh)
-        #fps = int(1/(time.time() - prev_time))
-        #print(f'fps: {fps}')
-        #darknet.print_detections(detections, args.ext_output)        
-        
+        #darknet.print_detections(detections, args.ext_output)
+
+        fps += 1/(time.time()-prev_time) 
+        n += 1
+        if n >= 100:
+            fps = fps/100
+            print(f"AVG_FPS: {fps:.2f}")    
+            n=0
+            fps=0
+
         image = darknet.draw_boxes(detections, frame, class_colors, darknet_width)
         
         if args.out_filename is not None:
