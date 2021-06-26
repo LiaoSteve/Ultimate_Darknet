@@ -1,5 +1,5 @@
 ## How to train Darknet YOLOv4
-* My Tutorial: https://mega.nz/file/Kwx03JRA#bzuB0MWHXqsYfafJQtbgOKdHbNSG74jldG96BYq9EkU 
+* My Tutorial: https://www.dropbox.com/s/osjzyheyq499esn/darknet-training-tutorial.mp4?dl=0
 * Yolo v4 paper:    [https://arxiv.org/abs/2004.10934](https://arxiv.org/abs/2004.10934)
 
 * Yolo v4 source code:  [https://github.com/AlexeyAB/darknet](https://github.com/AlexeyAB/darknet) 
